@@ -18,23 +18,30 @@ def catat_lemburan():
         #validasi format tanggal
         datetime.datetime.strptime(tanggal, "%Y-%m-%d")
 
-        jam_mulai = float(input("Jam mulai lembur: "))
-        jam_selesai = float(input("Jam selesai lembur: "))
+        jam_mulai_str = input("Jam mulai lembur (format HH:MM): ")
+        jam_selesai_str = input("Jam selesai lembur(format HH:MM): ")
 
-        #cek jam harus antar 0 - 24
-        if not (0 < jam_mulai < 24 and 0 < jam_selesai < 24):
-            print("error,jam harus 0-24")
-            return
-
+        #parsing jam
+        jam_mulai = datetime.datetime.strptime(jam_mulai_str, "%H:%M")
+        jam_selesai = datetime.datetime.strptime(jam_selesai_str, "%H:%M")
+      
         durasi = jam_selesai - jam_mulai
-        if durasi < 0:
-            print("Jam selesai tidak valid")
+
+        #cek durasi harus positif
+        if durasi.total_seconds() <= 0:
+            print("error: jam selesai harus lebih besar dari jam mulai")
             return
-#simpan data
+
+        #konversi durasi ke jam
+        durasi_jam = durasi.total_seconds() / 3600
+
+
+        #simpan data
 
         with open("data_lemburan.txt", "a") as f:
-            f.write(f"{nama},{tanggal},{jam_mulai},{jam_selesai},{durasi} Jam\n")
+            f.write(f"{nama},{tanggal},{jam_mulai_str},{jam_selesai_str},{int(durasi_jam)} Jam {int((durasi_jam % 1) * 60)} menit\n")
         print(f"data lemburan untuk {nama} pada {tanggal} telah dicatat")
+        print(f"durasi: ({int(durasi_jam)} jam {int((durasi_jam % 1) * 60)} menit)")
 
     except ValueError as e:
         print(f"error,input tidak valid:periksa kembali format input")
