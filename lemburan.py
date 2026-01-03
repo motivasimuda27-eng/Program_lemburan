@@ -24,6 +24,9 @@ def catat_lemburan():
         #parsing jam
         jam_mulai = datetime.datetime.strptime(jam_mulai_str, "%H:%M")
         jam_selesai = datetime.datetime.strptime(jam_selesai_str, "%H:%M")
+
+        #input reason
+        reason = input("Masukan reason lembur: ")
       
         durasi = jam_selesai - jam_mulai
 
@@ -39,7 +42,7 @@ def catat_lemburan():
         #simpan data
 
         with open("data_lemburan.txt", "a") as f:
-            f.write(f"{nama},{tanggal},{jam_mulai_str},{jam_selesai_str},{int(durasi_jam)} Jam {int((durasi_jam % 1) * 60)} menit\n")
+            f.write(f"Nama karyawan: {nama}, Tanggal: {tanggal}, Jam mulai lembur: {jam_mulai_str}, jam selesai lembur: {jam_selesai_str},Durasi lembur: {int(durasi_jam)} Jam {int((durasi_jam % 1) * 60)} menit, Reason: {reason}\n")
         print(f"data lemburan untuk {nama} pada {tanggal} telah dicatat")
         print(f"durasi: ({int(durasi_jam)} jam {int((durasi_jam % 1) * 60)} menit)")
 
