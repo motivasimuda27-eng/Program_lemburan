@@ -21,15 +21,23 @@ def catat_lemburan():
         jam_mulai = float(input("Jam mulai lembur: "))
         jam_selesai = float(input("Jam selesai lembur: "))
 
+        #cek jam harus antar 0 - 24
+        if not (0 < jam_mulai < 24 and 0 < jam_selesai < 24):
+            print("error,jam harus 0-24")
+            return
+
         durasi = jam_selesai - jam_mulai
         if durasi < 0:
             print("Jam selesai tidak valid")
             return
 #simpan data
 
-    with open("data_lemburan.txt", "a") as f:
-        f.write(f"{nama},{tanggal},{jam_mulai},{jam_selesai},{durasi} Jam\n")
-    print(f"data lemburan untuk {nama} pada {tanggal} telah dicatat")
+        with open("data_lemburan.txt", "a") as f:
+            f.write(f"{nama},{tanggal},{jam_mulai},{jam_selesai},{durasi} Jam\n")
+        print(f"data lemburan untuk {nama} pada {tanggal} telah dicatat")
+
+    except ValueError as e:
+        print(f"error,input tidak valid:periksa kembali format input")
 
 #fungsi untuk melihat data lemburan yang sudah tercatat
 
