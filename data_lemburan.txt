@@ -11,3 +11,7 @@ huda,2025-12-13,17:00,20:30,3.5 Jam 30 menit
 huda,2025-12-14,18:00,21:30,3 Jam 30 menit
  Nama karyawan: huda, Tanggal: 2025-12-02, Jam mulai lembur: 19:00, jam selesai lembur: 22:30,Durasi lembur: 3 Jam 30 menit
 Nama karyawan: huda, Tanggal: 2025-11-13, Jam mulai lembur: 18:00, jam selesai lembur: 22:30,Durasi lembur: 4 Jam 30 menit, Reason: menunggu glukosa
+Nama karyawan: huda, Tanggal Mulai: 2025-10-12, Jam mulai lembur: 23:00, Tanggal selesai: 2025-10-13, jam selesai lembur: 02:30,Durasi lembur: 3 Jam 30 menit, Reason: menunggu glukosa
+Nama karyawan: huda, Tanggal Mulai: 2025-12-31, Jam mulai lembur: 00:00, Tanggal selesai: 2025-12-31, jam selesai lembur: 02:30,Durasi lembur: 2 Jam 30 menit, Reason: glukosa
+Nama karyawan: huda, Tanggal Mulai: 2026-01-31, Jam mulai lembur: 23:00, Tanggal selesai: 2026-02-01, jam selesai lembur: 02:30,Durasi lembur: 3 Jam 30 menit, Reason: glukosa
+Nama karyawan: huda, Tanggal Mulai: 2025-12-31, Jam mulai lembur: 23:00, Tanggal selesai: 2026-01-01, jam selesai lembur: 02:30,Durasi lembur: 3 Jam 30 menit, Reason: glukosa
