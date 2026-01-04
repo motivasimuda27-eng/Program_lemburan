@@ -1,1 +1,4 @@
 Nama karyawan: huda, Tanggal Mulai: 2025-12-13, Jam mulai lembur: 23:00, Tanggal selesai: 2025-12-14, jam selesai lembur: 01:30,Durasi lembur: 2 Jam 30 menit, Reason: timbang out mobil
+Nama karyawan: huda, Tanggal Mulai: 2025-12-10, Jam mulai lembur: 23:00, Tanggal Selesai: 2025-12-11, Jam selesai lembur: 02:30, Durasi lembur: 3 Jam 30 menit, Reason: glukosa
+Nama karyawan: huda, Tanggal Mulai: 2025-12-31, Jam mulai lembur: 23:00, Tanggal Selesai: 2026-01-01, Jam selesai lembur: 02:30, Durasi lembur: 3 Jam 30 menit, Reason: glukosa
+Nama karyawan: huda, Tanggal Mulai: 2025-12-11, Jam mulai lembur: 23:00, Tanggal Selesai: 2025-12-12, Jam selesai lembur: 02:30, Durasi lembur: 3 Jam 30 menit, Reason: glukosa
