@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-from tkcalendar import DateEntry
+from tkcalendar import Calendar
 import datetime
 
 
@@ -68,11 +68,11 @@ def simpan_lemburan():
         entry_reason.delete(0, tk.END)
         # Reset jam ke default
         spinbox_jam_mulai.delete(0, tk.END)
-        spinbox_jam_mulai.insert(0, "18")
+        spinbox_jam_mulai.insert(0, "0")
         spinbox_menit_mulai.delete(0, tk.END)
         spinbox_menit_mulai.insert(0, "00")
         spinbox_jam_selesai.delete(0, tk.END)
-        spinbox_jam_selesai.insert(0, "21")
+        spinbox_jam_selesai.insert(0, "0")
         spinbox_menit_selesai.delete(0, tk.END)
         spinbox_menit_selesai.insert(0, "00")
     
@@ -142,10 +142,36 @@ entry_nama.grid(row=0, column=1, columnspan=3, pady=10, sticky="W")
 
 #tanggal lemburan dengan DateEntry (Calendar Picker)
 tk.Label(frame_form, text="Tanggal:", font=("Arial", 10), bg="#f0f0f0").grid(row=1, column=0, sticky="W", pady=10)
-entry_tanggal = DateEntry(frame_form, width=27, font=("Arial", 10), 
-                          background='darkblue', foreground='white', 
-                          borderwidth=2, date_pattern='yyyy-mm-dd')
-entry_tanggal.grid(row=1, column=1, columnspan=3, pady=10, sticky="W")
+
+#frame untuk tanggal dan tombol pilih
+frame_tanggal = tk.Entry(frame_form, bg="#f0f0f0")
+frame_tanggal.grid(row=1, column=1, columnspan=3, sticky="W")
+
+entry_tanggal = tk.Entry(frame_tanggal, width=15, font=("Arial", 10))
+entry_tanggal.insert(0, datetime.date.today().strftime("%Y-%m-%d"))
+entry_tanggal.pack(side=tk.LEFT)
+
+def pilih_tanggal():
+    #buat window baru
+    top=tk.Toplevel(window)
+    top.title("Pilih tanggal")
+    top.geometry("250x250")
+    
+    #calendar wigdet
+    cal = Calendar(top, selectmode='day', date_pattern='yyyy-mm-dd')
+    cal.pack(pady=10)
+    
+    def ambil_tanggal():
+        entry_tanggal.delete(0, tk.END)
+        entry_tanggal.insert(0, cal.get_date())
+        top.destroy()
+        
+    tk.Button(top, text="pilih", command=ambil_tanggal, bg="#4CAF50", fg="white", font=("Arial", 10)).pack(pady=5)
+    
+tombol_calendar = tk.Button(frame_tanggal, text="📆", command=pilih_tanggal, font=("Arial", 12), width=3)
+tombol_calendar.pack(side=tk.LEFT, padx=5)
+        
+
 
 #jam mulai lemburan
 tk.Label(frame_form, text="Jam Mulai:", font=("Arial", 10), bg="#f0f0f0").grid(row=2, column=0, sticky="W", pady=10)
@@ -154,16 +180,16 @@ frame_jam_mulai = tk.Frame(frame_form, bg="#f0f0f0")
 frame_jam_mulai.grid(row=2, column=1, columnspan=3, sticky="W", pady=10)
 
 spinbox_jam_mulai = tk.Spinbox(frame_jam_mulai, from_=0, to=23, width=5, 
-                                font=("Arial", 12), validate='key', 
+                                font=("Arial", 10), validate='key', 
                                 validatecommand=vcmd, wrap=True)
 spinbox_jam_mulai.delete(0, tk.END)
-spinbox_jam_mulai.insert(0, "18")
+spinbox_jam_mulai.insert(0, "00")
 spinbox_jam_mulai.pack(side=tk.LEFT)
 
 tk.Label(frame_jam_mulai, text=":", font=("Arial", 14, "bold"), bg="#f0f0f0").pack(side=tk.LEFT, padx=5)
 
 spinbox_menit_mulai = tk.Spinbox(frame_jam_mulai, from_=0, to=59, width=5, 
-                                  font=("Arial", 12), validate='key', 
+                                  font=("Arial", 10), validate='key', 
                                   validatecommand=vcmd, wrap=True)
 spinbox_menit_mulai.delete(0, tk.END)
 spinbox_menit_mulai.insert(0, "00")
@@ -179,16 +205,16 @@ frame_jam_selesai = tk.Frame(frame_form, bg="#f0f0f0")
 frame_jam_selesai.grid(row=3, column=1, columnspan=3, sticky="W", pady=10)
 
 spinbox_jam_selesai = tk.Spinbox(frame_jam_selesai, from_=0, to=23, width=5, 
-                                  font=("Arial", 12), validate='key', 
+                                  font=("Arial", 10), validate='key', 
                                   validatecommand=vcmd, wrap=True)
 spinbox_jam_selesai.delete(0, tk.END)
-spinbox_jam_selesai.insert(0, "21")
+spinbox_jam_selesai.insert(0, "00")
 spinbox_jam_selesai.pack(side=tk.LEFT)
 
 tk.Label(frame_jam_selesai, text=":", font=("Arial", 14, "bold"), bg="#f0f0f0").pack(side=tk.LEFT, padx=5)
 
 spinbox_menit_selesai = tk.Spinbox(frame_jam_selesai, from_=0, to=59, width=5, 
-                                    font=("Arial", 12), validate='key', 
+                                    font=("Arial", 10), validate='key', 
                                     validatecommand=vcmd, wrap=True)
 spinbox_menit_selesai.delete(0, tk.END)
 spinbox_menit_selesai.insert(0, "00")
