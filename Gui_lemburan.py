@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, ttk
 from tkcalendar import Calendar
 import datetime
 
@@ -83,29 +83,102 @@ def simpan_lemburan():
 def lihat_data():
     try:
         with open("data_lemburan.txt", "r") as f:
-            data = f.read()
+            lines = f.readlines()
 
-            #buat window untuk tampilkan data
+            if not lines:
+                messagebox.showwarning("Peringatan", "Belum ada data lemburan yang tercatat")
+                return
+            
+            #buat window baru untuk tampilkan data
             window_data = tk.Toplevel(window)
-            window_data.title("Data Lemburan")
-            window_data.geometry("800x400")
+            window_data.title("Data Lemburan Karyawan")
+            window_data.geometry("1000x500")
 
-            #text widget untuk tampilkan data
-            text_area = tk.Text(window_data, wrap=tk.WORD, font=("Courier", 9))
-            text_area.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+            #frame untuk table
+            frame_table =  tk.Frame(window_data)
+            frame_table.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
-            #scrollbar
-            scrollbar = tk.Scrollbar(text_area)
-            scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-            text_area.config(yscrollcommand=scrollbar.set)
-            scrollbar.config(command=text_area.yview)
+            #buat treeview untuk tampilkan data
+            columns = ("No", "Nama", "Tanggal mulai", "Jam mulai", "Tanggal selesai", "Jam selesai", "Durasi", "Reason")
+            tree = ttk.Treeview(frame_table, columns=columns, show="headings", height=15)
 
-            #insert data
-            text_area.insert(tk.END, data)
-            text_area.config(state=tk.DISABLED) #buat read-only
+            #definisikan kolom
+            tree.heading("No", text="No")
+            tree.heading("Nama", text="Nama Karyawan")
+            tree.heading("Tanggal mulai", text="Tgl Mulai")
+            tree.heading("Jam mulai", text="Jam Mulai")
+            tree.heading("Tanggal selesai", text="Tgl Selesai")
+            tree.heading("Jam selesai", text="Jam Selesai")
+            tree.heading("Durasi", text="Durasi")
+            tree.heading("Reason", text="Reason")
 
+            #lebar kolom
+            tree.column("No", width=40, anchor="center")
+            tree.column("Nama", width=150, anchor="w")
+            tree.column("Tanggal mulai", width=100, anchor="center")
+            tree.column("Jam mulai", width=80, anchor="center")
+            tree.column("Tanggal selesai", width=100, anchor="center")
+            tree.column("Jam selesai", width=80, anchor="center")
+            tree.column("Durasi", width=120, anchor="center")
+            tree.column("Reason", width=200, anchor="w")
+
+            #scrollbar vertikal
+            scrollbar_y = ttk.Scrollbar(frame_table, orient=tk.VERTICAL, command=tree.yview)
+            tree.configure(yscrollcommand=scrollbar_y.set)
+            scrollbar_y.pack(side=tk.RIGHT, fill=tk.Y)
+
+            #scrollbar horizontal
+            scrollbar_x = ttk.Scrollbar(frame_table, orient=tk.HORIZONTAL, command=tree.xview)
+            tree.configure(xscrollcommand=scrollbar_x.set)
+            scrollbar_x.pack(side=tk.BOTTOM, fill=tk.X)
+
+            style = ttk.Style()
+            style.theme_use("clam")
+            style.configure("Treeview.Heading", background="#4CAF50", foreground="white", font=("Arial", 10, "bold"))
+            style.configure("Treeview", background="white", foreground="black", rowheight=25, fieldbackground="white")
+
+            tree.pack(fill=tk.BOTH, expand=True)
+
+            for idx, line in enumerate(lines, start=1):
+                #parse dari format
+                try:
+                    parts = line.strip().split(", ")
+                    
+                    nama = parts[0].split(": ")[1] if len(parts) > 0 else "-"
+                    tanggal = parts[1].split(": ")[1] if len(parts) > 1 else "-"
+                    jam_mulai = parts[2].split(": ")[1] if len(parts) > 2 else "-"
+                    tanggal_selesai = parts[3].split(": ")[1] if len(parts) > 3 else "-"
+                    jam_selesai = parts[4].split(": ")[1] if len(parts) > 4 else "-"
+                    durasi = parts[5].split(": ")[1] if len(parts) > 5 else "-"
+                    reason = parts[6].split(": ")[1] if len(parts) > 6 else "-"
+
+                    #insert ke treeview
+                    tree.insert("", tk.END, values=(idx, nama, tanggal, jam_mulai, tanggal_selesai, jam_selesai, durasi, reason))
+                
+                except:
+                    #jika parsing gagal, lewati baris ini
+                    continue
+            
+            #style alternatif warna
+            tree.tag_configure('oddrow', background='#f0f0f0')
+            tree.tag_configure('evenrow', background='white')
+
+            #apply tags
+            for idx, item in enumerate(tree.get_children()):
+                if idx % 2 ==0:
+                    tree.item(item, tags=('evenrow',))
+                else:
+                    tree.item(item, tags=('oddrow', ))
+
+            #label info data
+            label_total = tk.Label(window_data, text=f"total data lemburan: {len(lines)} lemburan", font=("Arial", 10, "bold"), fg="#4CAF50")
+            label_total.pack(pady=5)
+        
     except FileNotFoundError:
         messagebox.showwarning("Peringatan", "Belum ada data lemburan yang tercatat")
+
+
+
 
 #fungsi untuk validasi input hanya angka
 def validate_number(value):
